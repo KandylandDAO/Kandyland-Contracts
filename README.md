@@ -23,7 +23,7 @@ setVault(DevWalletAddress) // Transfer vault ownership to dev to allow to mint
 
 mint(LBEContractAddress, 225000000000000) // Fund LBE contract with tokens for presale
 
-mint(MultiSigAddress, 25000000000000) // Fund Multisig Wallet with tokens for allocated marketing/dev/misc funds
+mint(MultiSigAddress, 25000000000000) // Fund Multisig Wallet with tokens for allocated marketing/dev/liquidity/misc funds
 
 setVault(MultiSigAddress) // Transfer vault ownership to multisig to remove dev wallet from vault
 
