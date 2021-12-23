@@ -26,3 +26,4 @@ Liquidity Bootstrap Event Contract:
 giveKandys(addressList, amountsList) // Submit addresses who previously purchased on old contract and credit them deserved tokens. (addressList = addresses.csv, amountsList = amounts.csv)
 disableGiveKandy() // Disable the ability to gift or credit any new addresses
 transferOwnership(MultiSigAddress) // Transfer Policy/Owner ownership to multisig
+
