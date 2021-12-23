@@ -176,9 +176,9 @@ contract KandySale is Ownable {
     }
 
 
-    function giveKandy(uint256 amount) external onlyOwner() {
+    function giveKandy(address buyer_, uint256 amount) external onlyOwner() {
         require(giveKandyBool, "Period to add address over");
-        invested[msg.sender] += amount;
+        invested[buyer_] += amount;
         sold += amount;
     }
 
