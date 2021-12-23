@@ -1,6 +1,6 @@
 # Setup Audit
 
-Full contracts to be out in public and audited to be vetted before live launch. Make sure all functions below were run before presale is considered to be setup proper and within ownership of the multisig address and not in any developer ownership.
+This is a setup intruction sheet to how a proper LBE should be launched and released to the public. Full contracts to be out in public and audited to be vetted before live launch. Make sure all functions below were run before presale is considered to be setup proper and within ownership of the multisig address and not in any developer ownership.
 
 ## Kandyland-Contracts
 
