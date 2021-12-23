@@ -21,29 +21,29 @@ https://snowtrace.io/address/0x159Fc01F53330D50B039b5E487E9aAAFa796f5f9
 
 ### Kandy ERC20 Contract:
 
-setVault(DevWalletAddress) // Transfer vault ownership to dev to allow to mint
+-setVault(DevWalletAddress) // Transfer vault ownership to dev to allow to mint
 
-mint(LBEContractAddress, 225000000000000) // Fund LBE contract with tokens for presale
+-mint(LBEContractAddress, 225000000000000) // Fund LBE contract with tokens for presale
 
-mint(MultiSigAddress, 25000000000000) // Fund Multisig Wallet with tokens for allocated marketing/dev/liquidity/misc funds
+-mint(MultiSigAddress, 25000000000000) // Fund Multisig Wallet with tokens for allocated marketing/dev/liquidity/misc funds
 
-setVault(MultiSigAddress) // Transfer vault ownership to multisig to remove dev wallet from vault
+-setVault(MultiSigAddress) // Transfer vault ownership to multisig to remove dev wallet from vault
 
-transferOwnership(MultiSigAddress) // Transfer Policy/Owner ownership to multisig
+-transferOwnership(MultiSigAddress) // Transfer Policy/Owner ownership to multisig
 
 
 
 ### Liquidity Bootstrap Event Contract:
 
-giveKandys(addressList, amountsList) // Submit addresses who previously purchased on old contract and credit them deserved tokens. (addressList = addresses.csv, amountsList = amounts.csv)
+-giveKandys(addressList, amountsList) // Submit addresses who previously purchased on old contract and credit them deserved tokens. (addressList = addresses.csv, amountsList = amounts.csv)
 
-disableGiveKandy() // Disable the ability to gift or credit any new addresses
+-disableGiveKandy() // Disable the ability to gift or credit any new addresses
 
-approveBuyers(whitelistList) // Whitelist all the original addresses for the new presale
+-approveBuyers(whitelistList) // Whitelist all the original addresses for the new presale
 
-transferOwnership(MultiSigAddress) // Transfer Policy/Owner ownership to multisig
+-transferOwnership(MultiSigAddress) // Transfer Policy/Owner ownership to multisig
 
 
 ## Conclusion:
 
-After all is done, no other functions were run, and verified. Can activate private sale.
+After all is done, no other functions were run, and verified. Can activate private sale. 
