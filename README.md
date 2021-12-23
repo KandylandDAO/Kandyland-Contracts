@@ -44,4 +44,6 @@ approveBuyers(whitelistList) // Whitelist all the original addresses for the new
 transferOwnership(MultiSigAddress) // Transfer Policy/Owner ownership to multisig
 
 
+## Conclusion:
+
 After all is done, no other functions were run, and verified. Can activate private sale.
