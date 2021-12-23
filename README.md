@@ -19,7 +19,7 @@ https://snowtrace.io/address/0x159Fc01F53330D50B039b5E487E9aAAFa796f5f9
 
 Kandy ERC20 Contract:
 
-setVault(DevWalletAddress) // Transfer valut ownership to dev to allow to mint
+setVault(DevWalletAddress) // Transfer vault ownership to dev to allow to mint
 
 mint(LBEContractAddress, 225000000000000) // Fund LBE contract with tokens for presale
 
