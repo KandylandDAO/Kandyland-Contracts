@@ -13,7 +13,7 @@ https://snowtrace.io/address/0x159Fc01F53330D50B039b5E487E9aAAFa796f5f9
 
 
 
-#Deployment functions to be run on deployment before presale active: 
+# Deployment functions to be run on deployment before presale active: 
 
 
 
