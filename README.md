@@ -27,7 +27,7 @@ https://snowtrace.io/address/0x159Fc01F53330D50B039b5E487E9aAAFa796f5f9
 
 -mint(DevWalletAddress, 25000000000000) // Fund Multisig Wallet with tokens for allocated marketing/dev/liquidity/misc funds
 
--setVault(Treasury Address) // Transfer vault ownership to Treasury Address
+-setVault(Treasury Address/MultiSigAddress) // Transfer vault ownership to Treasury Address/Multisig
 
 -transferOwnership(MultiSigAddress) // Transfer Policy/Owner ownership to multisig
 
