@@ -40,8 +40,6 @@ Send Tokens from dev wallet to multisig address.
 
 -disableGiveKandy() // Disable the ability to gift or credit any new addresses
 
--approveBuyers(whitelistList) // Whitelist all the original addresses for the new presale
-
 -transferOwnership(MultiSigAddress) // Transfer Policy/Owner ownership to multisig
 
 
