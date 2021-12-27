@@ -28,7 +28,7 @@ contract KandySale is Ownable {
     bool publicSale;
     bool privateSale;
     bool giveKandyBool;
-    address[] founderAddr = [0x85d708fA876a806C902b7F2FCbaC79BAF5996364, 0xd5B45dfd5340DCDd641a76D6F8D299613BE04dB2, 0x46D78800AFF415749364C727dC9AD4b5EfB04Fd7, 0x5a81c6a1D1DCA8694307Aa68dEF4D4F0F79A3F29];
+    address[] founderAddr = [0x85d708fA876a806C902b7F2FCbaC79BAF5996364, 0xd5B45dfd5340DCDd641a76D6F8D299613BE04dB2, 0x46D78800AFF415749364C727dC9AD4b5EfB04Fd7, 0x5a81c6a1D1DCA8694307Aa68dEF4D4F0F79A3F29, 0x0b8Ff541E08412B7a73C1B254AbB362d966F478b];
     mapping( address => uint256 ) public invested;
     mapping( address => uint ) public dailyClaimed;
     mapping( address => bool ) public approvedBuyers;
@@ -41,7 +41,7 @@ contract KandySale is Ownable {
         giveKandyBool = true;
         //Founder REWARDS(6250 allocated per dev/founder)
         for( uint256 iteration_ = 0; founderAddr.length > iteration_; iteration_++ ) {
-            invested[ founderAddr[ iteration_ ] ] = 6250 * Kandydecimals;
+            invested[ founderAddr[ iteration_ ] ] = 5000 * Kandydecimals;
         } 
     }
     /* check if it's not a contract */
@@ -168,24 +168,26 @@ contract KandySale is Ownable {
     }
 
     // Give Kandy to address without purchase
-    function giveKandy(address buyer_, uint256 amount) external onlyOwner() {
-        require(sold < MAX_SOLD, "sold out");
-        require(sold + amount < MAX_SOLD, "not enough remaining");
-        require(amount <= (MAX_PRESALE_PER_ACCOUNT - invested[buyer_]), "amount exceeds buyable amount");
-        require(amount + invested[buyer_] >= MIN_PRESALE_PER_ACCOUNT, "amount is not sufficient");
-        require(giveKandyBool, "Period to add address over");
+    // function giveKandy(address buyer_, uint256 amount) external onlyOwner() {
+    //     require(sold < MAX_SOLD, "sold out");
+    //     require(sold + amount < MAX_SOLD, "not enough remaining");
+    //     require(amount <= (MAX_PRESALE_PER_ACCOUNT - invested[buyer_]), "amount exceeds buyable amount");
+    //     require(amount + invested[buyer_] >= MIN_PRESALE_PER_ACCOUNT, "amount is not sufficient");
+    //     require(giveKandyBool, "Period to add address over");
 
-        invested[buyer_] += amount;
-        sold += amount;
-    }
+    //     invested[buyer_] += amount;
+    //     sold += amount;
+    // }
 
     // Remove Kandy from function
     function removeKandy(address buyer_, uint256 amount) external onlyOwner() { 
         require(amount <= invested[buyer_], "removing too much");
-
         dailyClaimed[buyer_] = 0;
         invested[buyer_] -= amount;
         sold -= amount;
+
+        amountPerClaim[buyer_] = (isFounder(buyer_) ? invested[buyer_] * 10 / 100 : invested[buyer_] * 20 / 100);
+
     }
 
     // Give Kandy to addresses without purchases
