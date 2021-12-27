@@ -8,9 +8,9 @@ Kandy ERC20 Contract Adress: 0x37deD665a387a6f170FB60376B3057f09df6c0Ea
 
 https://snowtrace.io/address/0x37deD665a387a6f170FB60376B3057f09df6c0Ea
 
-Liquidity Bootstrap Event Contract Address: 0xc427d8513E69837CeABB0Cb8eAeE346F56C53432
+Liquidity Bootstrap Event Contract Address: 0xBfAd166646d6D3Bceeefb2f570c17cD1E19B4159
 
-https://snowtrace.io/address/0xc427d8513E69837CeABB0Cb8eAeE346F56C53432
+https://snowtrace.io/address/0xBfAd166646d6D3Bceeefb2f570c17cD1E19B4159
 
 
 
