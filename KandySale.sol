@@ -20,7 +20,6 @@ contract KandySale is Ownable {
     uint public constant MIN_PRESALE_PER_ACCOUNT = 50 * Kandydecimals;
     // $2k maximum sale
     uint public constant MAX_PRESALE_PER_ACCOUNT = 400 * Kandydecimals;
-    address public owners;
     ERC20 MIM;
 
     uint public sold;
@@ -29,7 +28,7 @@ contract KandySale is Ownable {
     bool publicSale;
     bool privateSale;
     bool giveKandyBool;
-    address[] devAddr = [0x85d708fA876a806C902b7F2FCbaC79BAF5996364, 0xd5B45dfd5340DCDd641a76D6F8D299613BE04dB2, 0x46D78800AFF415749364C727dC9AD4b5EfB04Fd7, 0x5a81c6a1D1DCA8694307Aa68dEF4D4F0F79A3F29];
+    address[] founderAddr = [0x85d708fA876a806C902b7F2FCbaC79BAF5996364, 0xd5B45dfd5340DCDd641a76D6F8D299613BE04dB2, 0x46D78800AFF415749364C727dC9AD4b5EfB04Fd7, 0x5a81c6a1D1DCA8694307Aa68dEF4D4F0F79A3F29];
     mapping( address => uint256 ) public invested;
     mapping( address => uint ) public dailyClaimed;
     mapping( address => bool ) public approvedBuyers;
@@ -38,12 +37,11 @@ contract KandySale is Ownable {
     constructor() {
         //MIM CONTRACT ADDRESS
         MIM = ERC20(0x130966628846BFd36ff31a822705796e8cb8C18D);
-        owners = msg.sender;
         sold = 0;
         giveKandyBool = true;
-        //DEV / Founder REWARDS(6250 allocated per dev/founder)
-        for( uint256 iteration_ = 0; devAddr.length > iteration_; iteration_++ ) {
-            invested[ devAddr[ iteration_ ] ] = 6250 * Kandydecimals;
+        //Founder REWARDS(6250 allocated per dev/founder)
+        for( uint256 iteration_ = 0; founderAddr.length > iteration_; iteration_++ ) {
+            invested[ founderAddr[ iteration_ ] ] = 6250 * Kandydecimals;
         } 
     }
     /* check if it's not a contract */
@@ -100,15 +98,14 @@ contract KandySale is Ownable {
     }
 
     // set Kandy token address and activate claiming
-    function setClaimingActive(address kandy) public {
-        require(msg.sender == owners, "not owners");
+    function setClaimingActive(address kandy) external onlyOwner() {
         Kandy = kandy;
         canClaim = true;
     }
 
-    //Check if you are in DEV address
-    function isDev(address devAddr_) public view returns ( bool ) {
-        if ( devAddr_ == devAddr[0] || devAddr_ == devAddr[1] || devAddr_ == devAddr[2] || devAddr_ == devAddr[3]) {
+    //Check if you are in Founder addresses
+    function isFounder(address founderAddr_) public view returns ( bool ) {
+        if ( founderAddr_ == founderAddr[0] || founderAddr_ == founderAddr[1] || founderAddr_ == founderAddr[2] || founderAddr_ == founderAddr[3]) {
             return true;
         } 
         return false;
@@ -121,7 +118,7 @@ contract KandySale is Ownable {
         require(dailyClaimed[msg.sender] < block.timestamp, "cannot claimed now");
         if (dailyClaimed[msg.sender] == 0) {
             dailyClaimed[msg.sender] = block.timestamp;
-            amountPerClaim[msg.sender] = (isDev(msg.sender) ? invested[msg.sender] * 10 / 100 : invested[msg.sender] * 20 / 100);
+            amountPerClaim[msg.sender] = (isFounder(msg.sender) ? invested[msg.sender] * 10 / 100 : invested[msg.sender] * 20 / 100);
         }
         
         ERC20(Kandy).transfer(msg.sender, amountPerClaim[msg.sender]);
@@ -129,38 +126,32 @@ contract KandySale is Ownable {
         dailyClaimed[msg.sender] += 43200;
     }
 
-    // token withdrawal by owners
-    function withdraw(address _token) public {
-        require(msg.sender == owners, "not owners");
+    // token withdrawal
+    function withdraw(address _token) external onlyOwner() {
         uint b = IERC20(_token).balanceOf(address(this));
-        IERC20(_token).transfer(owners,b);
+        IERC20(_token).transfer(msg.sender,b);
     }
 
     // manual activation of public presales
-    function activatePublicSale() public {
-        require(msg.sender == owners, "not owners");
+    function activatePublicSale() external onlyOwner() {
         publicSale = true;
     }
     // manual deactivation of public presales
-    function deactivatePublicSale() public {
-        require(msg.sender == owners, "not owners");
+    function deactivatePublicSale() external onlyOwner() {
         publicSale = false;
     }
 
     // manual activation of whitelisted sales
-    function activatePrivateSale() public {
-        require(msg.sender == owners, "not owners");
+    function activatePrivateSale() external onlyOwner() {
         privateSale = true;
     }
 
     // manual deactivation of whitelisted sales
-    function deactivatePrivateSale() public {
-        require(msg.sender == owners, "not owners");
+    function deactivatePrivateSale() external onlyOwner() {
         privateSale = false;
     }
 
-    function setSold(uint _soldAmount) public {
-        require(msg.sender == owners, "not owners");
+    function setSold(uint _soldAmount) external onlyOwner() {
         sold = _soldAmount;
     }
 
@@ -171,25 +162,46 @@ contract KandySale is Ownable {
         return giveKandyBool;
     }
 
+    // Disable the giveKandy and giveKandys function permanently 
     function disableGiveKandy() external onlyOwner() {
         giveKandyBool = false;
     }
 
-
+    // Give Kandy to address without purchase
     function giveKandy(address buyer_, uint256 amount) external onlyOwner() {
+        require(sold < MAX_SOLD, "sold out");
+        require(sold + amount < MAX_SOLD, "not enough remaining");
+        require(amount <= (MAX_PRESALE_PER_ACCOUNT - invested[buyer_]), "amount exceeds buyable amount");
+        require(amount + invested[buyer_] >= MIN_PRESALE_PER_ACCOUNT, "amount is not sufficient");
         require(giveKandyBool, "Period to add address over");
+
         invested[buyer_] += amount;
         sold += amount;
     }
 
+    // Remove Kandy from function
+    function removeKandy(address buyer_, uint256 amount) external onlyOwner() { 
+        require(amount <= invested[buyer_], "removing too much");
+
+        dailyClaimed[buyer_] = 0;
+        invested[buyer_] -= amount;
+        sold -= amount;
+    }
+
+    // Give Kandy to addresses without purchases
     function giveKandys( address[] calldata buyers_, uint256[] calldata amounts_  ) external onlyOwner() returns ( uint256 ) {
         require(giveKandyBool, "Period to add address over");
+        require(sold < MAX_SOLD, "sold out");
+
         for( uint256 iteration_ = 0; buyers_.length > iteration_; iteration_++ ) {
+            require(sold + amounts_[iteration_] < MAX_SOLD, "not enough remaining");
+            require(amounts_[iteration_] <= (MAX_PRESALE_PER_ACCOUNT - invested[buyers_[iteration_]]), "amount exceeds buyable amount");
+            require(amounts_[iteration_] + invested[buyers_[iteration_]] >= MIN_PRESALE_PER_ACCOUNT, "amount is not sufficient");
+
             invested[buyers_[iteration_]] += amounts_[iteration_];
             sold += amounts_[iteration_];
         }
         return buyers_.length;
     }
 
-    // I tried to make this look good for you contract auditors and add explanations
 }
