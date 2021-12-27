@@ -123,7 +123,7 @@ contract KandySale is Ownable {
         
         ERC20(Kandy).transfer(msg.sender, amountPerClaim[msg.sender]);
         invested[msg.sender] -= amountPerClaim[msg.sender];
-        dailyClaimed[msg.sender] += 43200;
+        dailyClaimed[msg.sender] += 86400;
     }
 
     // token withdrawal
