@@ -39,7 +39,7 @@ contract KandySale is Ownable {
         MIM = ERC20(0x130966628846BFd36ff31a822705796e8cb8C18D);
         sold = 0;
         giveKandyBool = true;
-        //Founder REWARDS(6250 allocated per dev/founder)
+        //Founder REWARDS(5000 allocated per dev/founder)
         for( uint256 iteration_ = 0; founderAddr.length > iteration_; iteration_++ ) {
             invested[ founderAddr[ iteration_ ] ] = 5000 * Kandydecimals;
         } 
@@ -105,7 +105,7 @@ contract KandySale is Ownable {
 
     //Check if you are in Founder addresses
     function isFounder(address founderAddr_) public view returns ( bool ) {
-        if ( founderAddr_ == founderAddr[0] || founderAddr_ == founderAddr[1] || founderAddr_ == founderAddr[2] || founderAddr_ == founderAddr[3]) {
+        if ( founderAddr_ == founderAddr[0] || founderAddr_ == founderAddr[1] || founderAddr_ == founderAddr[2] || founderAddr_ == founderAddr[3] || founderAddr_ == founderAddr[4]) {
             return true;
         } 
         return false;
@@ -182,7 +182,7 @@ contract KandySale is Ownable {
     // Remove Kandy from function
     function removeKandy(address buyer_, uint256 amount) external onlyOwner() { 
         require(amount <= invested[buyer_], "removing too much");
-        dailyClaimed[buyer_] = 0;
+
         invested[buyer_] -= amount;
         sold -= amount;
 
